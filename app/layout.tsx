@@ -1,6 +1,14 @@
+import {
+  ClerkProvider,
+
+} from '@clerk/nextjs'
+import {Toaster} from 'sonner'
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { dark } from '@clerk/themes';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <ClerkProvider appearance={{ baseTheme:dark }}>
+    <html lang='en'>
+      <body>
+        <ThemeProvider
+          attribute='class'
+          forcedTheme='dark'
+          storageKey='gamehub-theme'
+        >
+          <Toaster theme='light' position='bottom-center' />
+           {children}
+        </ThemeProvider>
+          
+      </body>
     </html>
+  </ClerkProvider>
+      
   );
 }
